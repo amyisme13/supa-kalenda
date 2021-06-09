@@ -11,7 +11,7 @@
           </v-col>
 
           <v-col>
-            <v-card outlined height="600px"></v-card>
+            <app-calendar :user="user" />
           </v-col>
         </v-row>
       </v-container>
@@ -23,12 +23,13 @@
 import { RealtimeSubscription, User } from '@supabase/supabase-js';
 import { Vue, Component } from 'vue-property-decorator';
 
-import UsersCard from '@/components/UsersCard.vue';
+import AppCalendar from '@/components/AppCalendar.vue';
 import AuthCard from '@/components/AuthCard.vue';
+import UsersCard from '@/components/UsersCard.vue';
 import supabase, { fetchUsers, Profile } from '@/plugins/supabase';
 
 @Component({
-  components: { AuthCard, UsersCard },
+  components: { AppCalendar, AuthCard, UsersCard },
 })
 export default class App extends Vue {
   user: User | null = null;
@@ -46,7 +47,7 @@ export default class App extends Vue {
     this.fetchUsers();
   }
 
-  unmounted() {
+  beforeDestroy() {
     this.usersListener?.unsubscribe();
   }
 

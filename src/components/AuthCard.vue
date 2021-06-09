@@ -37,7 +37,7 @@
     </v-card-text>
 
     <edit-profile-modal
-      v-if="profile"
+      v-if="user && profile"
       :initialName="user.user_metadata.full_name"
       :is-new-user="isNewUser"
       :profile="profile"

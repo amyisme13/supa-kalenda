@@ -16,6 +16,15 @@ export interface Profile {
   updated_at: string;
 }
 
+export interface Event {
+  id: number;
+  user_id: string;
+  title: string;
+  start: string;
+  end: string;
+  creator: Profile;
+}
+
 export function fetchProfile(id: string) {
   return client.from<Profile>('users').select('*').eq('id', id).single();
 }
@@ -36,4 +45,12 @@ export function fetchUsers() {
     .select('*')
     .neq('name', '')
     .order('name');
+}
+
+export function fetchEvents(start: string, end: string) {
+  return client
+    .from<Event>('events')
+    .select('*, creator:user_id(*)')
+    .gte('start', start)
+    .lte('end', end);
 }
