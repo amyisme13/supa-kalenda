@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    persistent
-    max-width="500"
-    transition="dialog-bottom-transition"
-    v-model="dialog"
-  >
+  <v-dialog persistent max-width="500" v-model="dialog">
     <v-card>
       <v-card-title>Edit Profile</v-card-title>
 

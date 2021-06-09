@@ -8,6 +8,8 @@
     </div>
 
     <full-calendar ref="calendar" :options="calendarOptions" />
+
+    <event-form-modal ref="eventDialog" :user="user" />
   </div>
 </template>
 
@@ -25,12 +27,13 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { RealtimeSubscription, User } from '@supabase/supabase-js';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
+import EventFormModal from '@/components/EventFormModal.vue';
 import supabase, { fetchEvents, Profile } from '@/plugins/supabase';
 
 @Component({
-  components: { FullCalendar },
+  components: { FullCalendar, EventFormModal },
 })
 export default class AppCalendar extends Vue {
   @Prop({ default: null })
@@ -63,6 +66,10 @@ export default class AppCalendar extends Vue {
     return (this.$refs.calendar as any).getApi() as Calendar;
   }
 
+  get eventDialog() {
+    return this.$refs.eventDialog as any;
+  }
+
   mounted() {
     this.onResize('mount');
     this.setupListeners();
@@ -76,10 +83,12 @@ export default class AppCalendar extends Vue {
     // vuetify breakpoint doesnt change fast enough
     // so we have to use setTimeout here
     setTimeout(() => {
-      const isSmAndDown = this.$vuetify.breakpoint.smAndDown;
+      const isSmAndDown = this.$vuetify.breakpoint.xsOnly;
       if (event === 'mount' && isSmAndDown) {
         this.calendarApi.changeView('listMonth');
       }
+
+      this.calendarOptions.selectable = !!this.user;
 
       this.calendarOptions.footerToolbar = {
         center: isSmAndDown ? 'prev,next today' : undefined,
@@ -121,9 +130,11 @@ export default class AppCalendar extends Vue {
 
     return data.map((v): EventInput => {
       this.users.set(v.creator.id, v.creator);
+
       return {
         id: v.id.toString(),
         title: v.title,
+        allDay: v.all_day,
         start: v.start,
         end: v.end,
         color: v.creator.color,
@@ -134,11 +145,20 @@ export default class AppCalendar extends Vue {
   }
 
   handleDateSelect(e: DateSelectArg) {
-    console.log('select', e);
+    if (this.eventDialog) {
+      this.eventDialog.openNew(e);
+    }
   }
 
   handleEventClick(e: EventClickArg) {
-    console.log('click', e);
+    if (this.eventDialog) {
+      this.eventDialog.openEdit(e.event.extendedProps);
+    }
+  }
+
+  @Watch('user')
+  onUserChanged() {
+    this.calendarOptions.selectable = !!this.user;
   }
 }
 </script>
