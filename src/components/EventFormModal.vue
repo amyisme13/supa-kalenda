@@ -65,7 +65,7 @@
 
       <v-card-actions>
         <v-btn
-          v-if="isEditable"
+          v-if="isEditable && isEditing"
           small
           class="white--text"
           color="red"
@@ -75,7 +75,9 @@
           Delete
         </v-btn>
 
-        <span v-else class="text-caption">Created by {{ creator }}</span>
+        <span v-else-if="!isEditable" class="text-caption">
+          Created by {{ creator }}
+        </span>
 
         <v-spacer></v-spacer>
         <v-btn color="secondary" text @click="close">Close</v-btn>
