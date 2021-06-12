@@ -41,6 +41,7 @@ export function fetchUsers() {
 export interface Event {
   id: number;
   user_id: string;
+  deleted: boolean;
   title: string;
   all_day: boolean;
   start: string;
@@ -53,7 +54,8 @@ export function fetchEvents(start: string, end: string) {
     .from<Event>('events')
     .select('*, creator:user_id(*)')
     .gte('start', start)
-    .lte('end', end);
+    .lte('end', end)
+    .eq('deleted', false);
 }
 
 export function upsertEvent(event: Partial<Event>) {
@@ -61,5 +63,5 @@ export function upsertEvent(event: Partial<Event>) {
 }
 
 export function deleteEvent(id: number) {
-  return client.from<Event>('events').delete().eq('id', id);
+  return client.from<Event>('events').update({ deleted: true }).eq('id', id);
 }
