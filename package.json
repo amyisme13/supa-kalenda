@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "workers:build": "tsc -b workers/tsconfig.json",
+    "workers:start": "node workers/events"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^5.7.2",
@@ -16,6 +18,7 @@
     "@supabase/supabase-js": "^1.13.2",
     "core-js": "^3.6.5",
     "date-fns": "^2.22.1",
+    "dotenv": "^10.0.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
