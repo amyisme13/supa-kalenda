@@ -98,7 +98,7 @@
 <script lang="ts">
 import { DateSelectArg } from '@fullcalendar/vue';
 import { User } from '@supabase/supabase-js';
-import { endOfDay, format, startOfDay } from 'date-fns';
+import { format, addDays, subDays } from 'date-fns';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import { deleteEvent, Event, upsertEvent } from '@/plugins/supabase';
@@ -176,10 +176,15 @@ export default class EventFormModal extends Vue {
   }
 
   setFormDateTime(start: Date | string, end: Date | string) {
+    let endDate = new Date(end);
+    if (this.form.allDay) {
+      endDate = subDays(endDate, 1);
+    }
+
     this.form.startDate = this.formatDate(start);
     this.form.startTime = this.formatTime(start);
-    this.form.endDate = this.formatDate(end);
-    this.form.endTime = this.formatTime(end);
+    this.form.endDate = this.formatDate(endDate);
+    this.form.endTime = this.formatTime(endDate);
   }
 
   openNew(arg?: DateSelectArg) {
@@ -235,8 +240,7 @@ export default class EventFormModal extends Vue {
     let start = new Date(`${this.form.startDate} ${this.form.startTime}`);
     let end = new Date(`${this.form.endDate} ${this.form.endTime}`);
     if (this.form.allDay) {
-      start = startOfDay(start);
-      end = endOfDay(end);
+      end = addDays(end, 1);
     }
 
     const form: Partial<Event> = {

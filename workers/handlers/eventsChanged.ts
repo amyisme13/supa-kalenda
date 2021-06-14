@@ -1,17 +1,19 @@
 import { SupabaseRealtimePayload } from '@supabase/supabase-js';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 
 import { Event, fetchChats, fetchProfile } from '../utils/supabase';
 import { sendMessage } from '../utils/telegraf';
 
-// TODO: Fix allDay range
 function formatDateRange({
   start: startStr,
   end: endStr,
   all_day: allDay,
 }: Event) {
   const start = new Date(startStr);
-  const end = new Date(endStr);
+  let end = new Date(endStr);
+  if (allDay) {
+    end = subDays(end, 1);
+  }
 
   const startDate = format(start, 'd MMM yyyy');
   const startTime = format(start, 'HH:mm');
