@@ -11,7 +11,6 @@ bot.start((ctx) =>
 );
 
 registerCommands(bot);
-bot.help((ctx) => ctx.reply('Commands: register, unregister'));
 bot.launch().then(() => console.log('Listening to telegram chats...'));
 
 const listener = client
