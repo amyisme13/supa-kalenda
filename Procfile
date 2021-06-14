@@ -1,1 +1,1 @@
-worker: yarn workers:build && yarn workers:start
+worker: node workers-dist

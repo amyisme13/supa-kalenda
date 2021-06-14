@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "workers:build": "tsc -b workers/tsconfig.json",
-    "workers:start": "node workers-dist"
+    "workers:start": "node workers-dist",
+    "heroku-postbuild": "yarn workers:build"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^5.7.2",
