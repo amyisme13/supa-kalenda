@@ -1,5 +1,5 @@
 import path from 'path';
-import { chromium } from 'playwright';
+import { chromium } from 'playwright-chromium';
 
 import config from '../config';
 import { CommandFn } from '../utils/telegraf';
@@ -13,7 +13,7 @@ const takeScreenshot = async () => {
     return;
   }
 
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ chromiumSandbox: false });
   const page = await browser.newPage();
   await page.goto(`${config.url}?noauth=1`);
   await page.screenshot({ path: screenshotPath, fullPage: true });
