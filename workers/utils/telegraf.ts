@@ -1,6 +1,8 @@
 import { Telegraf } from 'telegraf';
 
-const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN as string);
+import config from '../config';
+
+const bot = new Telegraf(config.telegramBotToken);
 
 export default bot;
 

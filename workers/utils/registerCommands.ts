@@ -1,5 +1,6 @@
 import { Telegraf } from 'telegraf';
 
+import calendar from '../commands/calendar';
 import register from '../commands/register';
 import unregister from '../commands/unregister';
 import { CommandFn } from './telegraf';
@@ -20,6 +21,11 @@ const commands: Command[] = [
     command: 'unregister',
     description: 'Unregister the chat to stop receiving message from the bot',
     handler: unregister,
+  },
+  {
+    command: 'calendar',
+    description: "Display picture of today's calendar",
+    handler: calendar,
   },
   {
     command: 'ping',

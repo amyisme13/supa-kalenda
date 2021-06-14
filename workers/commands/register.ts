@@ -1,3 +1,4 @@
+import config from '../config';
 import { fetchChat, insertChat } from '../utils/supabase';
 import { sendMessage, CommandFn } from '../utils/telegraf';
 
@@ -13,7 +14,7 @@ const register: CommandFn = async (ctx) => {
   const params = ctx.message.text.split(' ');
   const paramKey = params.length >= 2 ? params[1] : null;
 
-  const key = process.env.APP_REGISTER_KEY;
+  const key = config.registerKey;
   if (paramKey !== key) {
     await sendMessage(chatId, 'Invalid register key');
     return;

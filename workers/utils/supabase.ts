@@ -1,9 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
+import config from '../config';
 
-const client = createClient(
-  process.env.VUE_APP_SUPABASE_URL as string,
-  process.env.SUPABASE_SERVICE_KEY as string
-);
+const client = createClient(config.supabaseUrl, config.supabaseServiceKey);
 
 export default client;
 

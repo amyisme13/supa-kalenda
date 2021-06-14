@@ -6,7 +6,7 @@
           <v-col cols="12" lg="3">
             <h1 class="font-weight-medium text-center mb-4">Supa Kalenda</h1>
 
-            <auth-card :user="user" />
+            <auth-card v-if="showAuth" :user="user" />
             <users-card class="mt-2" :loading="isLoadingUsers" :users="users" />
           </v-col>
 
@@ -35,6 +35,8 @@ export default class App extends Vue {
   user: User | null = null;
 
   isLoadingUsers = false;
+  showAuth = true;
+
   users: Profile[] = [];
   usersListener: RealtimeSubscription | null = null;
 
@@ -45,6 +47,9 @@ export default class App extends Vue {
     });
 
     this.fetchUsers();
+
+    const params = new URLSearchParams(location.search);
+    this.showAuth = !params.has('noauth');
   }
 
   beforeDestroy() {
