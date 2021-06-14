@@ -1,33 +1,24 @@
-import path from 'path';
 import { chromium } from 'playwright-chromium';
 
 import config from '../config';
 import { CommandFn } from '../utils/telegraf';
 
-const screenshotPath = path.join(__dirname, '../screenshots/image.png');
-let lastScreenshot: number;
-
 const takeScreenshot = async () => {
-  // simple cache
-  if (lastScreenshot && Date.now() - lastScreenshot < 60000) {
-    return;
-  }
-
   const browser = await chromium.launch({ chromiumSandbox: false });
   const page = await browser.newPage();
   await page.goto(`${config.url}?noauth=1`);
-  await page.screenshot({ path: screenshotPath, fullPage: true });
+  const screenshot = await page.screenshot({ fullPage: true });
   await browser.close();
 
-  lastScreenshot = Date.now();
+  return screenshot;
 };
 
 const calendar: CommandFn = async (ctx) => {
   const message = await ctx.reply('Loading calendar...');
 
-  await takeScreenshot();
+  const screenshot = await takeScreenshot();
 
-  await ctx.replyWithPhoto({ source: screenshotPath });
+  await ctx.replyWithPhoto({ source: screenshot });
   await ctx.deleteMessage(message.message_id);
 };
 
