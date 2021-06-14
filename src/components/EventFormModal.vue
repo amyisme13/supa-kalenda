@@ -207,6 +207,7 @@ export default class EventFormModal extends Vue {
     this.event = event;
 
     this.form.title = event.title;
+    this.form.allDay = event.all_day;
     this.setFormDateTime(event.start, event.end);
 
     this.creator = event.creator.name;
