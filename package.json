@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "workers:build": "tsc -b workers/tsconfig.json",
-    "workers:start": "node workers/events"
+    "workers:start": "node workers-dist"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^5.7.2",
@@ -20,6 +20,7 @@
     "date-fns": "^2.22.1",
     "dotenv": "^10.0.0",
     "register-service-worker": "^1.7.1",
+    "telegraf": "^4.3.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2",
