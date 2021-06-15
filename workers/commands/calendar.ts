@@ -5,7 +5,10 @@ import { CommandFn } from '../utils/telegraf';
 
 const takeScreenshot = async () => {
   console.log('start screenshot');
-  const browser = await chromium.launch({ chromiumSandbox: false });
+  const browser = await chromium.launch({
+    chromiumSandbox: false,
+    args: ['--disable-gpu'],
+  });
   console.log('chrome launched');
   const page = await browser.newPage();
   console.log('new page opened');
