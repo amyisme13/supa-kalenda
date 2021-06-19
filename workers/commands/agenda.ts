@@ -2,14 +2,34 @@ import { addDays, parse, subDays } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
 import config from '../config';
-import { fetchEvents } from '../utils/supabase';
+import { Event, fetchEvents } from '../utils/supabase';
 import { CommandFn } from '../utils/telegraf';
 
 const formatDate = (date: Date) =>
-  format(utcToZonedTime(date, config.timezone), 'dd MMM yyyy');
+  format(utcToZonedTime(date, config.timezone), 'd MMM yyyy');
 
 const formatTime = (date: Date) =>
   format(utcToZonedTime(date, config.timezone), 'HH:mm');
+
+const formatTimeRange = (dateArg: string, event: Event) => {
+  if (event.all_day) {
+    return 'all day';
+  }
+
+  const start = new Date(event.start);
+  const end = new Date(event.end);
+  let startStr = '00:00';
+  let endStr = '24:00';
+  if (formatDate(start) === dateArg) {
+    startStr = formatTime(start);
+  }
+
+  if (formatDate(end) === dateArg) {
+    endStr = formatTime(end);
+  }
+
+  return `${startStr} - ${endStr}`;
+};
 
 const parseDateArg = (date: Date, arg: string) => {
   if (arg === 'today') {
@@ -46,12 +66,13 @@ const agenda: CommandFn = async (ctx) => {
     return;
   }
 
+  const dateArg = formatDate(date);
   if (events.length === 0) {
-    await ctx.reply(`No agenda on ${formatDate(date)}`);
+    await ctx.reply(`No agenda on ${dateArg}`);
     return;
   }
 
-  let message = `Agenda ${formatDate(date)}:`;
+  let message = `Agenda ${dateArg}:`;
   let lastUserId: string;
   events.forEach((event) => {
     if (lastUserId !== event.user_id) {
@@ -63,13 +84,7 @@ const agenda: CommandFn = async (ctx) => {
       message += `\n[${event.creator.name}]`;
     }
 
-    let range = 'all day';
-    if (!event.all_day) {
-      const start = formatTime(new Date(event.start));
-      const end = formatTime(new Date(event.end));
-      range = `${start} - ${end}`;
-    }
-
+    const range = formatTimeRange(dateArg, event);
     message += `\n${range} | ${event.title}`;
   });
 
