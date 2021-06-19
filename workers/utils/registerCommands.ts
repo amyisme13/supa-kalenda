@@ -1,5 +1,6 @@
 import { Telegraf } from 'telegraf';
 
+import agenda from '../commands/agenda';
 import calendar from '../commands/calendar';
 import register from '../commands/register';
 import unregister from '../commands/unregister';
@@ -24,8 +25,13 @@ const commands: Command[] = [
   },
   {
     command: 'calendar',
-    description: "Display picture of today's calendar",
+    description: 'Display picture of this month calendar',
     handler: calendar,
+  },
+  {
+    command: 'agenda',
+    description: "List today's agenda or agenda from a given date",
+    handler: agenda,
   },
   {
     command: 'ping',

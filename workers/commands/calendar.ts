@@ -26,8 +26,8 @@ const calendar: CommandFn = async (ctx) => {
 
   const screenshot = await takeScreenshot();
 
+  ctx.deleteMessage(message.message_id);
   await ctx.replyWithPhoto({ source: screenshot });
-  await ctx.deleteMessage(message.message_id);
 };
 
 export default calendar;

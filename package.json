@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "^1.13.2",
     "core-js": "^3.6.5",
     "date-fns": "^2.22.1",
+    "date-fns-tz": "^1.1.4",
     "dotenv": "^10.0.0",
     "playwright-chromium": "^1.12.2",
     "register-service-worker": "^1.7.1",

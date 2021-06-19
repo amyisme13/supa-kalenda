@@ -8,4 +8,5 @@ export default {
 
   registerKey: process.env.APP_REGISTER_KEY || 'supakalenda',
   url: process.env.APP_URL || 'http://localhost:8080',
+  timezone: process.env.APP_TIMEZONE || 'Asia/Jakarta',
 };

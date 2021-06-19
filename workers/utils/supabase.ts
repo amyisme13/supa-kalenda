@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { endOfDay, startOfDay } from 'date-fns';
 import config from '../config';
 
 const client = createClient(config.supabaseUrl, config.supabaseServiceKey);
@@ -27,6 +28,18 @@ export interface Event {
   start: string;
   end: string;
   creator: Profile;
+}
+
+export function fetchEvents(date: Date) {
+  return client
+    .from<Event>('events')
+    .select('*, creator:user_id(*)')
+    .lte('start', endOfDay(date).toISOString())
+    .gte('end', startOfDay(date).toISOString())
+    .order('user_id')
+    .order('all_day', { ascending: false })
+    .order('start')
+    .eq('deleted', false);
 }
 
 export interface Chat {
