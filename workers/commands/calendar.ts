@@ -9,7 +9,7 @@ const takeScreenshot = async () => {
     args: ['--disable-gpu'],
   });
 
-  const page = await browser.newPage({ timezoneId: 'Asia/Jakarta' });
+  const page = await browser.newPage({ timezoneId: config.timezone });
   await Promise.all([
     page.waitForResponse((res) => res.url().includes('/users')),
     page.waitForResponse((res) => res.url().includes('/events')),
