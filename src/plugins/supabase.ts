@@ -50,11 +50,16 @@ export interface Event {
 }
 
 export function fetchEvents(start: string, end: string) {
+  const filters = [
+    `and(start.gte.${start},start.lte.${end})`,
+    `and(end.gte.${start},end.lte.${end})`,
+    `and(start.lte.${start},end.gte.${end})`,
+  ];
+
   return client
     .from<Event>('events')
     .select('*, creator:user_id(*)')
-    .gte('start', start)
-    .lte('end', end)
+    .or(filters.join(','))
     .eq('deleted', false);
 }
 
