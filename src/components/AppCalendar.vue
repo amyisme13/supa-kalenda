@@ -27,6 +27,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { RealtimeSubscription, User } from '@supabase/supabase-js';
+import { addDays } from 'date-fns';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 import EventFormModal from '@/components/EventFormModal.vue';
@@ -131,12 +132,17 @@ export default class AppCalendar extends Vue {
     return data.map((v): EventInput => {
       this.users.set(v.creator.id, v.creator);
 
+      let end = new Date(v.end);
+      if (v.all_day) {
+        end = addDays(end, 1);
+      }
+
       return {
         id: v.id.toString(),
         title: v.title,
         allDay: v.all_day,
         start: v.start,
-        end: v.end,
+        end: end,
         color: v.creator.color,
         textColor: v.creator.text_color,
         extendedProps: v,

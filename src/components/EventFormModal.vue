@@ -98,7 +98,7 @@
 <script lang="ts">
 import { DateSelectArg } from '@fullcalendar/vue';
 import { User } from '@supabase/supabase-js';
-import { format, addDays, subDays } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 import { deleteEvent, Event, upsertEvent } from '@/plugins/supabase';
@@ -177,7 +177,7 @@ export default class EventFormModal extends Vue {
 
   setFormDateTime(start: Date | string, end: Date | string) {
     let endDate = new Date(end);
-    if (this.form.allDay) {
+    if (this.form.allDay && !this.event) {
       endDate = subDays(endDate, 1);
     }
 
@@ -237,11 +237,8 @@ export default class EventFormModal extends Vue {
 
     this.isSubmitting = true;
 
-    let start = new Date(`${this.form.startDate} ${this.form.startTime}`);
-    let end = new Date(`${this.form.endDate} ${this.form.endTime}`);
-    if (this.form.allDay) {
-      end = addDays(end, 1);
-    }
+    const start = new Date(`${this.form.startDate} ${this.form.startTime}`);
+    const end = new Date(`${this.form.endDate} ${this.form.endTime}`);
 
     const form: Partial<Event> = {
       user_id: this.user.id,
