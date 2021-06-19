@@ -1,15 +1,15 @@
 import { addDays, parse, subDays } from 'date-fns';
-import { format } from 'date-fns-tz';
+import { format, utcToZonedTime } from 'date-fns-tz';
 
 import config from '../config';
 import { fetchEvents } from '../utils/supabase';
 import { CommandFn } from '../utils/telegraf';
 
 const formatDate = (date: Date) =>
-  format(date, 'dd MMM yyyy', { timeZone: config.timezone });
+  format(utcToZonedTime(date, config.timezone), 'dd MMM yyyy');
 
 const formatTime = (date: Date) =>
-  format(date, 'HH:mm', { timeZone: config.timezone });
+  format(utcToZonedTime(date, config.timezone), 'HH:mm');
 
 const parseDateArg = (date: Date, arg: string) => {
   if (arg === 'today') {
