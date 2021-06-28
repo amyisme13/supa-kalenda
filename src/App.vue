@@ -10,19 +10,11 @@
             <users-card class="mt-2" :loading="isLoadingUsers" :users="users" />
 
             <p class="text-caption mt-2 px-2">
-              <a
-                href="https://www.privacypolicygenerator.info/live.php?token=SW4Suzy0EfHipMzSegpgJdQRLWGbuial"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a :href="ppLink" target="_blank" rel="noopener noreferrer">
                 Privacy Policy
               </a>
               <br />
-              <a
-                href="https://www.termsofservicegenerator.net/live.php?token=VzIDM31aXiuGnSLZMQlBWUDqEM8t0dOm"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a :href="tosLink" target="_blank" rel="noopener noreferrer">
                 Terms of Service
               </a>
             </p>
@@ -52,11 +44,28 @@ import supabase, { fetchUsers, Profile } from '@/plugins/supabase';
 export default class App extends Vue {
   user: User | null = null;
 
+  ppLink =
+    'https://www.privacypolicygenerator.info/live.php?token=SW4Suzy0EfHipMzSegpgJdQRLWGbuial';
+  tosLink =
+    'https://www.termsofservicegenerator.net/live.php?token=VzIDM31aXiuGnSLZMQlBWUDqEM8t0dOm';
+
   isLoadingUsers = false;
   showAuth = true;
 
   users: Profile[] = [];
   usersListener: RealtimeSubscription | null = null;
+
+  created() {
+    const params = new URLSearchParams(location.search);
+    this.showAuth = !params.has('noauth');
+
+    if (params.has('redirect-pp')) {
+      location.replace(this.ppLink);
+    }
+    if (params.has('redirect-tos')) {
+      location.replace(this.tosLink);
+    }
+  }
 
   mounted() {
     this.user = supabase.auth.user();
@@ -65,9 +74,6 @@ export default class App extends Vue {
     });
 
     this.fetchUsers();
-
-    const params = new URLSearchParams(location.search);
-    this.showAuth = !params.has('noauth');
   }
 
   beforeDestroy() {
