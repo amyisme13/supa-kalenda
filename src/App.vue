@@ -8,6 +8,24 @@
 
             <auth-card v-if="showAuth" :user="user" />
             <users-card class="mt-2" :loading="isLoadingUsers" :users="users" />
+
+            <p class="text-caption mt-2 px-2">
+              <a
+                href="https://www.privacypolicygenerator.info/live.php?token=SW4Suzy0EfHipMzSegpgJdQRLWGbuial"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policy
+              </a>
+              <br />
+              <a
+                href="https://www.termsofservicegenerator.net/live.php?token=VzIDM31aXiuGnSLZMQlBWUDqEM8t0dOm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Terms of Service
+              </a>
+            </p>
           </v-col>
 
           <v-col>
