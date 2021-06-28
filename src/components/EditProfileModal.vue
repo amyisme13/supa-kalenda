@@ -11,6 +11,13 @@
 
         <v-form v-model="isValid">
           <v-text-field
+            v-if="isNewUser"
+            label="Register Key"
+            :rules="keyRules"
+            v-model="registerKey"
+          />
+
+          <v-text-field
             :counter="255"
             label="Name"
             :rules="nameRules"
@@ -94,11 +101,19 @@ export default class EditProfileModal extends Vue {
   isValid = false;
   isSubmitting = false;
 
+  registerKey = '';
   form = {
     name: '',
     color: '',
     text_color: '',
   };
+
+  keyRules = [
+    (v: string) => !!v || 'Register key is required',
+    (v: string) =>
+      v === process.env.VUE_APP_REGISTER_KEY ||
+      'Invalid register key. Please contact admin.',
+  ];
 
   nameRules = [
     (v: string) => !!v || 'Name is required',
