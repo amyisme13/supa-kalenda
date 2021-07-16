@@ -41,11 +41,13 @@ export default class AppCalendar extends Vue {
   user!: User | null;
 
   isFetchingEvents = false;
+  isViewWeek = false;
   users: Map<string, Profile> = new Map();
 
   listeners: RealtimeSubscription[] = [];
 
   calendarOptions: CalendarOptions = {
+    height: undefined,
     plugins: [dayGridPlugin, interactionPlugin, listPlugin, timeGridPlugin],
     dayMaxEvents: true,
     initialView: 'dayGridMonth',
@@ -71,6 +73,11 @@ export default class AppCalendar extends Vue {
     return this.$refs.eventDialog as any;
   }
 
+  created() {
+    const params = new URLSearchParams(location.search);
+    this.isViewWeek = params.has('view-week');
+  }
+
   mounted() {
     this.onResize('mount');
     this.setupListeners();
@@ -87,6 +94,11 @@ export default class AppCalendar extends Vue {
       const isSmAndDown = this.$vuetify.breakpoint.xsOnly;
       if (event === 'mount' && isSmAndDown) {
         this.calendarApi.changeView('listMonth');
+      }
+
+      if (event === 'mount' && this.isViewWeek) {
+        this.calendarOptions.height = 1280;
+        this.calendarApi.changeView('timeGridWeek');
       }
 
       this.calendarOptions.selectable = !!this.user;

@@ -3,7 +3,7 @@ import { chromium } from 'playwright-chromium';
 import config from '../config';
 import { CommandFn } from '../utils/telegraf';
 
-const takeScreenshot = async () => {
+const takeScreenshot = async (isViewWeek = false) => {
   const browser = await chromium.launch({
     chromiumSandbox: false,
     args: ['--disable-gpu'],
@@ -13,7 +13,7 @@ const takeScreenshot = async () => {
   await Promise.all([
     page.waitForResponse((res) => res.url().includes('/users')),
     page.waitForResponse((res) => res.url().includes('/events')),
-    page.goto(`${config.url}?noauth=1`),
+    page.goto(`${config.url}?noauth=1${isViewWeek ? '&view-week=1' : ''}`),
   ]);
   const screenshot = await page.screenshot({ type: 'png' });
   await browser.close();
@@ -24,7 +24,9 @@ const takeScreenshot = async () => {
 const calendar: CommandFn = async (ctx) => {
   const message = await ctx.reply('Loading calendar...');
 
-  const screenshot = await takeScreenshot();
+  const arg = ctx.message.text.split(' ');
+  const isViewWeek = arg.length > 1 && arg[1] === 'week';
+  const screenshot = await takeScreenshot(isViewWeek);
 
   ctx.deleteMessage(message.message_id);
   await ctx.replyWithPhoto({ source: screenshot });
