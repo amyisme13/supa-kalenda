@@ -15,7 +15,7 @@ const takeScreenshot = async (isViewWeek = false) => {
     page.waitForResponse((res) => res.url().includes('/events')),
     page.goto(`${config.url}?noauth=1${isViewWeek ? '&view-week=1' : ''}`),
   ]);
-  const screenshot = await page.screenshot({ type: 'png' });
+  const screenshot = await page.screenshot({ type: 'png', fullPage: true });
   await browser.close();
 
   return screenshot;
