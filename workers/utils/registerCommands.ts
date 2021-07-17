@@ -29,7 +29,7 @@ const commands: Command[] = [
     handler: calendar,
   },
   {
-    command: 'calendarWeek',
+    command: 'calendarweek',
     description: 'Display picture of this week calendar',
     handler: calendar,
   },

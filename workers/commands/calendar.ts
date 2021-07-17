@@ -26,7 +26,7 @@ const calendar: CommandFn = async (ctx) => {
 
   const arg = ctx.message.text.split(' ');
   let isViewWeek = arg.length > 1 && arg[1] === 'week';
-  if (ctx.message.text.includes('calendarWeek')) {
+  if (ctx.message.text.includes('calendarweek')) {
     isViewWeek = true;
   }
 
