@@ -29,6 +29,11 @@ const commands: Command[] = [
     handler: calendar,
   },
   {
+    command: 'calendar-week',
+    description: 'Display picture of this week calendar',
+    handler: calendar,
+  },
+  {
     command: 'agenda',
     description: "List today's agenda or agenda from a given date",
     handler: agenda,

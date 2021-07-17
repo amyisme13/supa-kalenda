@@ -25,7 +25,11 @@ const calendar: CommandFn = async (ctx) => {
   const message = await ctx.reply('Loading calendar...');
 
   const arg = ctx.message.text.split(' ');
-  const isViewWeek = arg.length > 1 && arg[1] === 'week';
+  let isViewWeek = arg.length > 1 && arg[1] === 'week';
+  if (ctx.message.text === 'calendar-week') {
+    isViewWeek = true;
+  }
+
   const screenshot = await takeScreenshot(isViewWeek);
 
   ctx.deleteMessage(message.message_id);
