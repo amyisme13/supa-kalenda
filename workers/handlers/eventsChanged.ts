@@ -1,6 +1,7 @@
 import { SupabaseRealtimePayload } from '@supabase/supabase-js';
 import { format, subDays } from 'date-fns';
 
+import { deleteEvent, insertEvent, updateEvent } from '../utils/gcalendar';
 import { Event, fetchChats, fetchProfile } from '../utils/supabase';
 import { sendMessage } from '../utils/telegraf';
 
@@ -54,9 +55,13 @@ export default async function (event: SupabaseRealtimePayload<Event>) {
 
   const dateRange = formatDateRange(event.new);
   let message = `'${event.new.title}' ${dateRange} created by ${user.name}`;
-  if (event.eventType === 'UPDATE' && event.new.deleted) {
+  if (event.eventType === 'INSERT') {
+    insertEvent(event.new, user);
+  } else if (event.eventType === 'UPDATE' && event.new.deleted) {
+    deleteEvent(event.new);
     message = `'${event.new.title}' ${dateRange} deleted`;
   } else if (event.eventType === 'UPDATE') {
+    updateEvent(event.new, user);
     message = `'${event.new.title}' ${dateRange} updated`;
   }
 

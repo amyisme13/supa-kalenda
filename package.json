@@ -21,6 +21,7 @@
     "date-fns": "^2.22.1",
     "date-fns-tz": "^1.1.4",
     "dotenv": "^10.0.0",
+    "googleapis": "^82.0.0",
     "playwright-chromium": "^1.12.2",
     "register-service-worker": "^1.7.1",
     "telegraf": "^4.3.0",
