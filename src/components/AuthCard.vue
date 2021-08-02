@@ -29,6 +29,14 @@
           Edit Profile
         </v-btn>
 
+        <v-btn block class="mb-2" :href="calendarUrl" target="_blank">
+          <v-avatar tile size="18" class="mr-2">
+            <img src="@/assets/gcalendar.svg" alt="Google calendar logo" />
+          </v-avatar>
+
+          Add to Google Calendar
+        </v-btn>
+
         <v-btn block color="secondary" :loading="isSigning" @click="signOut">
           <v-icon left>mdi-logout</v-icon>
           Logout
@@ -84,6 +92,10 @@ export default class AuthCard extends Vue {
     }
 
     return this.user.email;
+  }
+
+  get calendarUrl() {
+    return process.env.VUE_APP_GCAL_URL;
   }
 
   signIn() {
