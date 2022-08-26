@@ -27,7 +27,7 @@ export function updateProfile(profile: Partial<Profile>) {
       ...profile,
       updated_at: new Date().toJSON(),
     })
-    .single();
+    .match({ id: profile.id });
 }
 
 export function fetchUsers() {
