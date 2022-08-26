@@ -20,7 +20,7 @@ export function fetchProfile(id: string) {
   return client.from<Profile>('users').select('*').eq('id', id).single();
 }
 
-export function updateProfile(profile: Partial<Profile>) {
+export function updateProfile(id: string, profile: Partial<Profile>) {
   return client
     .from<Profile>('users')
     .update({

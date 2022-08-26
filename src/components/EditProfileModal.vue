@@ -158,7 +158,7 @@ export default class EditProfileModal extends Vue {
     this.isSubmitting = true;
 
     this.form.text_color = this.getTextColor();
-    const { data, error } = await updateProfile(this.form);
+    const { data, error } = await updateProfile(this.profile.id, this.form);
     if (!data || error) {
       alert('Error, please contact admin (amy.azmim@gmail.com).');
       this.cancel();
