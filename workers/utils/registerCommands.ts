@@ -23,16 +23,16 @@ const commands: Command[] = [
     description: 'Unregister the chat to stop receiving message from the bot',
     handler: unregister,
   },
-  {
-    command: 'calendar',
-    description: 'Display picture of this month calendar',
-    handler: calendar,
-  },
-  {
-    command: 'calendarweek',
-    description: 'Display picture of this week calendar',
-    handler: calendar,
-  },
+  // {
+  //   command: 'calendar',
+  //   description: 'Display picture of this month calendar',
+  //   handler: calendar,
+  // },
+  // {
+  //   command: 'calendarweek',
+  //   description: 'Display picture of this week calendar',
+  //   handler: calendar,
+  // },
   {
     command: 'agenda',
     description: "List today's agenda or agenda from a given date",
