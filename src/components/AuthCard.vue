@@ -29,7 +29,7 @@
           Edit Profile
         </v-btn>
 
-        <v-btn block class="mb-2" :href="calendarUrl" target="_blank">
+        <v-btn v-if="calendarUrl" block class="mb-2" :href="calendarUrl" target="_blank">
           <v-avatar tile size="18" class="mr-2">
             <img src="@/assets/gcalendar.svg" alt="Google calendar logo" />
           </v-avatar>

@@ -10,7 +10,7 @@ const auth = new google.auth.GoogleAuth({
 });
 
 const calendar = google.calendar({ version: 'v3', auth });
-const calendarId = 'or3bu7t218211re8gfp9q6kk64@group.calendar.google.com';
+const calendarId = '';
 
 export async function insertEvent(event: Event, user: Profile) {
   try {
